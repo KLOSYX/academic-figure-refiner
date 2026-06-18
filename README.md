@@ -4,6 +4,28 @@ Academic Figure Refiner is a Codex skill for turning reference images, rough dra
 
 The workflow is HTML-first: use HTML/CSS/SVG as the editable source, preserve scientific meaning, then export PDF and high-resolution PNG deliverables when needed.
 
+## Installation
+
+Install with the open agent skills CLI:
+
+```bash
+npx skills add KLOSYX/academic-figure-refiner
+```
+
+This repository is structured as a single root skill: `SKILL.md` sits at the repository root, with `references/`, `assets/`, and `agents/` beside it.
+
+For a manual Codex install, clone the repo into your personal skills directory:
+
+```bash
+git clone https://github.com/KLOSYX/academic-figure-refiner.git ~/.codex/skills/academic-figure-refiner
+```
+
+Then invoke it in Codex with:
+
+```text
+Use $academic-figure-refiner to refine this paper figure.
+```
+
 ## What It Does
 
 - Rebuilds paper figures as editable HTML/CSS/SVG projects.
@@ -29,6 +51,8 @@ figure-project/
 ## Lavish Refinement
 
 After an initial HTML figure is complete, Lavish can be used for precise polish. The user can click elements, select text, and mark visual feedback directly in the browser, then Codex can revise the HTML/CSS/SVG source.
+
+Lavish is not a replacement for the skill's first-pass figure construction. Use the skill to create a scientifically faithful first draft, then use Lavish as the fine-tuning loop for precise human feedback.
 
 ```bash
 npx -y lavish-axi index.html
