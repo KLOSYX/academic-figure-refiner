@@ -23,7 +23,7 @@ Create publication-ready academic figures from reference images or rough drafts 
    - optional `data.csv` or `data.json` for data-backed charts
 5. **Apply academic styling.** Use restrained typography, consistent spacing, color-blind-aware palettes, stable panel labels, and print-safe line weights. For standards, read `references/academic-standards.md`.
 6. **Review visually.** Inspect the rendered figure at the target paper width and at a smaller preview size. Fix text overflow, clipped labels, inconsistent alignment, low-resolution assets, and overcrowding.
-7. **Optionally use Lavish for feedback.** If available, open the HTML artifact with `npx -y lavish-axi index.html`, collect element-level annotations or layout warnings, revise the source, and repeat. Lavish is recommended for human review but is not required. For details, read `references/html-figure-workflow.md`.
+7. **Use Lavish for final refinement when possible.** After the first complete HTML figure draft is rendered, open it with `npx -y lavish-axi index.html` so the user can click elements, select text, and mark precise layout or style changes. Poll the feedback, revise the HTML/CSS/SVG source, and repeat until the figure feels polished. Lavish is the preferred fine-tuning loop but is not required. For details, read `references/html-figure-workflow.md`.
 8. **Export and report.** Export PDF for vector-preserving review and PNG for quick submission or preview. Mention any scientific assumptions, data approximations, source image limitations, or edits that require author verification.
 
 ## HTML-First Rules
