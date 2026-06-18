@@ -62,6 +62,13 @@ npx -y lavish-axi poll index.html
 
 Use Lavish for fine adjustments such as spacing, alignment, label wording, arrow placement, panel balance, visual hierarchy, small overlaps, readability at publication width, and color consistency. Do not use it as a replacement for scientific validation or source-data checking.
 
+Practical notes from running Lavish locally:
+
+- `lavish-axi index.html` opens or resumes a local review session and returns a `127.0.0.1` session URL.
+- `lavish-axi poll index.html` is a blocking long-poll; silence is normal while waiting for user feedback.
+- Use relative asset paths only. Root-prefixed paths such as `/assets/...` may not resolve.
+- If port `4387` is stuck, check with `lsof -nP -iTCP:4387 -sTCP:LISTEN`.
+
 ## Skill Contents
 
 - `SKILL.md`: main Codex workflow and quality gate.
