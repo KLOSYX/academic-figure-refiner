@@ -1,0 +1,4 @@
+interface:
+  display_name: "Academic Figure Refiner"
+  short_description: "Refine paper figures as editable HTML"
+  default_prompt: "Use $academic-figure-refiner to turn this reference figure into a polished, publication-ready HTML figure."

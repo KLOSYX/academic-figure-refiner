@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="lavish-live-reload" content="root" />
+    <title>Academic Figure</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="figure-page">
+      <figure class="paper-figure" aria-label="Publication-ready academic figure">
+        <section class="panel panel-a" aria-labelledby="panel-a-title">
+          <div class="panel-label">A</div>
+          <h2 id="panel-a-title">Task structure</h2>
+          <svg class="diagram" viewBox="0 0 640 260" role="img" aria-label="Example task timeline">
+            <defs>
+              <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" />
+              </marker>
+            </defs>
+            <line class="axis-line" x1="70" y1="130" x2="570" y2="130" marker-end="url(#arrow)" />
+            <g class="phase" transform="translate(90 70)">
+              <rect width="110" height="70" rx="6" />
+              <text x="55" y="42" text-anchor="middle">Fixation</text>
+            </g>
+            <g class="phase accent" transform="translate(260 70)">
+              <rect width="110" height="70" rx="6" />
+              <text x="55" y="42" text-anchor="middle">Stimulus</text>
+            </g>
+            <g class="phase" transform="translate(430 70)">
+              <rect width="110" height="70" rx="6" />
+              <text x="55" y="42" text-anchor="middle">Response</text>
+            </g>
+            <text class="small-note" x="320" y="205" text-anchor="middle">Replace this template content with verified study details.</text>
+          </svg>
+        </section>
+
+        <section class="panel panel-b" aria-labelledby="panel-b-title">
+          <div class="panel-label">B</div>
+          <h2 id="panel-b-title">Result summary</h2>
+          <svg class="chart" viewBox="0 0 640 260" role="img" aria-label="Example vector chart">
+            <line class="axis-line" x1="90" y1="210" x2="570" y2="210" />
+            <line class="axis-line" x1="90" y1="40" x2="90" y2="210" />
+            <rect class="bar bar-one" x="150" y="96" width="78" height="114" />
+            <rect class="bar bar-two" x="282" y="70" width="78" height="140" />
+            <rect class="bar bar-three" x="414" y="122" width="78" height="88" />
+            <text x="189" y="235" text-anchor="middle">Group 1</text>
+            <text x="321" y="235" text-anchor="middle">Group 2</text>
+            <text x="453" y="235" text-anchor="middle">Group 3</text>
+            <text class="axis-title" x="35" y="126" transform="rotate(-90 35 126)" text-anchor="middle">Verified unit</text>
+          </svg>
+        </section>
+      </figure>
+    </main>
+  </body>
+</html>
