@@ -4,6 +4,7 @@ Use this reference after classifying the figure type.
 
 ## Multi-Panel Figures
 
+- From scratch, define the figure claim, panel list, target width, and required source data or evidence before drawing.
 - Establish the target width first: single-column, double-column, or full-page.
 - Define a stable grid and panel labels before styling details.
 - Make panel labels consistent in size, weight, and position.
@@ -12,6 +13,7 @@ Use this reference after classifying the figure type.
 
 ## Mechanism Or Conceptual Diagrams
 
+- From scratch, list the entities, relationships, directionality, and claims that the diagram must communicate.
 - Use SVG shapes, paths, and labels rather than flattened images.
 - Use a restrained palette with one or two accent colors.
 - Prefer simple arrows and grouped modules over decorative illustration.
@@ -20,6 +22,7 @@ Use this reference after classifying the figure type.
 
 ## Behavioral Task Flows
 
+- From scratch, define trial phases, timing, conditions, stimuli, response windows, and feedback before drawing.
 - Represent time explicitly with a horizontal or vertical sequence.
 - Preserve stimulus timing, response windows, trial phases, and condition labels.
 - Use repeated visual grammar for stimuli, fixation, response, feedback, and rest.
@@ -28,6 +31,7 @@ Use this reference after classifying the figure type.
 
 ## Data Charts
 
+- From scratch, start from source data and decide the chart form that best supports the scientific claim.
 - Prefer rebuilding from source data in CSV/JSON.
 - Preserve axes, scales, units, group labels, sample sizes, and statistical annotations.
 - Avoid chartjunk, 3D effects, heavy shadows, decorative gradients, and unneeded borders.
@@ -36,6 +40,7 @@ Use this reference after classifying the figure type.
 
 ## Correlation Matrices And Heatmaps
 
+- From scratch, define variables, ordering, value scale, missing values, and color semantics before drawing.
 - Preserve row/column order, labels, scale, and color meaning.
 - Use a perceptually coherent diverging palette for signed values.
 - Include a readable color bar with endpoints and units or correlation coefficient label.
@@ -44,6 +49,7 @@ Use this reference after classifying the figure type.
 
 ## Brain, MRI, fMRI, And Imaging Panels
 
+- From scratch, collect source images, orientation labels, coordinates, color bars, ROI labels, and threshold notes before layout.
 - Preserve source image evidence and orientation labels.
 - Keep anatomical labels, slice coordinates, scale bars, color bars, and threshold notes intact.
 - Use vector overlays for arrows, outlines, ROI labels, and callouts.
@@ -52,6 +58,7 @@ Use this reference after classifying the figure type.
 
 ## Microscopy, Histology, Gel, And Other Image Panels
 
+- From scratch, collect source images, scale information, treatment/group labels, and approved annotation needs before layout.
 - Preserve raw or source image files.
 - Use separate overlays for labels, arrows, outlines, and scale bars.
 - Keep scale bars consistent and labeled.

@@ -1,6 +1,6 @@
 # HTML Figure Workflow
 
-Use this reference when creating editable HTML/CSS/SVG figure projects and when using Lavish for review.
+Use this reference when building first-pass editable HTML/CSS/SVG figure projects and refining them through Lavish.
 
 ## Recommended Project Structure
 
@@ -31,7 +31,7 @@ Keep files portable. Use relative paths from `index.html` to assets and styles.
 
 ## Lavish Refinement Loop
 
-Lavish is the recommended fine-tuning step after the first complete HTML figure draft exists. Use it when the figure is structurally correct but needs human-guided polish: tighter spacing, better alignment, label wording, panel balance, arrow placement, color consistency, or small visual corrections that are hard to describe without pointing at the artifact.
+Lavish is the recommended human-in-the-loop fine-tuning step after the first complete HTML figure draft exists. Use it when the figure is structurally correct but needs human-guided polish: tighter spacing, better alignment, label wording, panel balance, arrow placement, color consistency, local overlap fixes, visual hierarchy adjustments, or small visual corrections that are hard to describe without pointing at the artifact.
 
 1. Finish a coherent first HTML draft before starting Lavish. Do not use Lavish to replace scientific validation or data checking.
 2. From the directory containing the figure project, run:
@@ -51,6 +51,17 @@ npx -y lavish-axi poll index.html
 6. Repeat until layout warnings and user review feedback are resolved.
 
 Use relative asset paths. Avoid root-prefixed paths such as `/assets/image.png`, which may fail in local artifact routes.
+
+Recommended loop:
+
+```text
+build first HTML draft
+  -> launch Lavish
+  -> collect precise human feedback
+  -> patch HTML/CSS/SVG
+  -> re-render and repeat
+  -> export PDF/PNG
+```
 
 ## Export Guidance
 

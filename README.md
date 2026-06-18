@@ -1,8 +1,8 @@
-# Academic Figure Refiner
+# Academic Figure Builder and Refiner
 
-Academic Figure Refiner is a Codex skill for turning reference images, rough drafts, screenshots, and multi-panel layouts into polished, publication-ready academic figures.
+Academic Figure Builder and Refiner is a Codex skill for creating polished, publication-ready academic figures from scratch or improving existing reference images, rough drafts, screenshots, and multi-panel layouts.
 
-The workflow is HTML-first: use HTML/CSS/SVG as the editable source, preserve scientific meaning, then export PDF and high-resolution PNG deliverables when needed.
+The workflow is HTML-first: use HTML/CSS/SVG as the editable source, preserve scientific meaning, create a coherent first draft, then use [Lavish](https://github.com/kunchenguid/lavish-axi) for human-in-the-loop refinement before exporting PDF and high-resolution PNG deliverables.
 
 ## Installation
 
@@ -23,17 +23,18 @@ git clone https://github.com/KLOSYX/academic-figure-refiner.git ~/.codex/skills/
 Then invoke it in Codex with:
 
 ```text
-Use $academic-figure-refiner to refine this paper figure.
+Use $academic-figure-refiner to build or refine this paper figure.
 ```
 
 ## What It Does
 
+- Builds new academic figures from study descriptions, manuscript context, figure plans, data, and source images.
 - Rebuilds paper figures as editable HTML/CSS/SVG projects.
 - Improves typography, spacing, panel labels, color consistency, and layout.
 - Supports general academic figures with extra guidance for behavioral and neuroscience figures.
 - Keeps empirical images separate from annotation overlays.
 - Treats scientific integrity as the first constraint: no invented data, altered trends, removed evidence, or unsupported visual claims.
-- Uses [Lavish](https://github.com/kunchenguid/lavish-axi) as a human-in-the-loop refinement pass after the first complete HTML draft.
+- Uses [Lavish](https://github.com/kunchenguid/lavish-axi) as the preferred human-in-the-loop refinement pass after the first complete HTML draft.
 
 ## Typical Outputs
 
@@ -48,18 +49,18 @@ figure-project/
   data.csv or data.json
 ```
 
-## Lavish Refinement
+## Human-in-the-Loop Refinement with Lavish
 
 After an initial HTML figure is complete, [Lavish](https://github.com/kunchenguid/lavish-axi) can be used for precise polish. The user can click elements, select text, and mark visual feedback directly in the browser, then Codex can revise the HTML/CSS/SVG source.
 
-Lavish is not a replacement for the skill's first-pass figure construction. Use the skill to create a scientifically faithful first draft, then use Lavish as the fine-tuning loop for precise human feedback.
+Lavish is not a replacement for the skill's first-pass figure construction. Use the skill to create a scientifically faithful first draft, then use Lavish as the fine-tuning loop for precise human feedback that improves usability, readability, and publication fit.
 
 ```bash
 npx -y lavish-axi index.html
 npx -y lavish-axi poll index.html
 ```
 
-Use Lavish for fine adjustments such as spacing, alignment, label wording, arrow placement, panel balance, and color consistency. Do not use it as a replacement for scientific validation or source-data checking.
+Use Lavish for fine adjustments such as spacing, alignment, label wording, arrow placement, panel balance, visual hierarchy, small overlaps, readability at publication width, and color consistency. Do not use it as a replacement for scientific validation or source-data checking.
 
 ## Skill Contents
 
@@ -73,5 +74,5 @@ Use Lavish for fine adjustments such as spacing, alignment, label wording, arrow
 ## Example Prompt
 
 ```text
-Use $academic-figure-refiner to rebuild this rough behavioral task diagram as an editable HTML figure for a neuroscience paper, then use Lavish for final spacing and label refinements.
+Use $academic-figure-refiner to build a new multi-panel academic figure from this study description and dataset, then use Lavish for human-in-the-loop spacing, label, and panel-balance refinements.
 ```
