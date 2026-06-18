@@ -33,7 +33,7 @@ Use $academic-figure-refiner to refine this paper figure.
 - Supports general academic figures with extra guidance for behavioral and neuroscience figures.
 - Keeps empirical images separate from annotation overlays.
 - Treats scientific integrity as the first constraint: no invented data, altered trends, removed evidence, or unsupported visual claims.
-- Uses Lavish as a human-in-the-loop refinement pass after the first complete HTML draft.
+- Uses [Lavish](https://github.com/kunchenguid/lavish-axi) as a human-in-the-loop refinement pass after the first complete HTML draft.
 
 ## Typical Outputs
 
@@ -50,7 +50,7 @@ figure-project/
 
 ## Lavish Refinement
 
-After an initial HTML figure is complete, Lavish can be used for precise polish. The user can click elements, select text, and mark visual feedback directly in the browser, then Codex can revise the HTML/CSS/SVG source.
+After an initial HTML figure is complete, [Lavish](https://github.com/kunchenguid/lavish-axi) can be used for precise polish. The user can click elements, select text, and mark visual feedback directly in the browser, then Codex can revise the HTML/CSS/SVG source.
 
 Lavish is not a replacement for the skill's first-pass figure construction. Use the skill to create a scientifically faithful first draft, then use Lavish as the fine-tuning loop for precise human feedback.
 
