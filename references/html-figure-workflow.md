@@ -1,6 +1,6 @@
 # HTML Figure Workflow
 
-Use this reference when building first-pass editable HTML/CSS/SVG figure projects and refining them through Lavish.
+Use this reference when building editable HTML/CSS/SVG figure projects, integrating data-driven plots, running automated export & layout audits, and optionally polishing with Lavish.
 
 ## Recommended Project Structure
 
@@ -8,107 +8,132 @@ Use this reference when building first-pass editable HTML/CSS/SVG figure project
 figure-project/
   index.html
   styles.css
+  plot_panels.py        # Optional: generates data-driven SVG panels from data.csv/json
+  data.csv / data.json  # Source data for charts and matrices
   assets/
-    source-panel-a.png
-    source-panel-b.png
+    panel-b-plot.svg    # Generated data plot or preserved raster evidence
+    source-panel-c.png
   exports/
-    figure.pdf
-    figure.png
-  data.csv or data.json
+    figure.pdf          # Tightly cropped vector PDF
+    figure.png          # High-DPI PNG (>= 300 dpi)
 ```
 
-Keep files portable. Use relative paths from `index.html` to assets and styles.
+Keep files portable. Use relative paths from `index.html` to `styles.css`, `assets/`, and scripts. Never use root-prefixed paths such as `/assets/image.png`.
+
+## The 1:1 SVG Physical Coordinate Rule
+
+A common failure mode in HTML figures is mismatched SVG `viewBox` scale: if a column renders at `323 CSS px` (`~85.5 mm` at `96 dpi`) and its `<svg>` uses `viewBox="0 0 640 260"`, the browser scales the SVG down by `~0.5×`, shrinking `11 px` text to `5.5 px` (`~4.1 pt`)—unreadable in print.
+
+Always match each SVG `viewBox` width to its actual rendered CSS column width at `96 dpi` (`1 mm = 3.7795 px`):
+
+- Full double-column (`178 mm`): `~673 px` (`viewBox="0 0 673 H"`)
+- Half of a 2-column `178 mm` figure with `7 mm` gap: `(178 - 7) / 2 = 85.5 mm` → `~323 px` (`viewBox="0 0 323 H"`)
+- Single-column Nature (`89 mm`): `~336 px` (`viewBox="0 0 336 H"`)
+- NeurIPS full width (`139.7 mm`): `~528 px` (`viewBox="0 0 528 H"`)
+
+When `viewBox` width matches rendered CSS pixels `1:1`, physical `pt` tokens (`--body-size: 7.5pt`, `--tick-size: 6.5pt`) render at exact publication size.
 
 ## HTML/CSS/SVG Conventions
 
 - Use semantic panel containers such as `<section class="panel panel-a">`.
-- Use CSS grid for multi-panel layouts.
-- Define design tokens in `:root`: figure width, font family, text sizes, line width, panel gap, and palette colors.
-- Use SVG for diagrams, overlays, arrows, scale bars, labels, and chart-like vector content.
-- Put empirical image panels in `<img>` elements and add annotations using positioned SVG overlays.
-- Avoid external CDNs unless the user explicitly wants them. The figure should render offline.
-- Add print CSS for stable page/export behavior.
+- Use CSS Grid (`.paper-figure`) locked to `var(--figure-width)`—never collapse columns on narrow screen viewports (`@media (max-width: ...)`), because figures have fixed physical aspect ratios; use `overflow-x: auto` on `.figure-page` instead.
+- Define design tokens in `:root`: `--figure-width`, `--font-sans`, physical `pt` font sizes, print-safe stroke weights, and color-blind-safe palette hex codes.
+- Include `print-color-adjust: exact; -webkit-print-color-adjust: exact;` globally and `@page { margin: 0; }` for print/PDF fidelity.
+- Put empirical raster images in `<img>` elements and add annotations (arrows, ROIs, scale bars) in an overlaid `<svg>` positioned over the image container.
+- Avoid external CDNs so figures render cleanly offline and inside sandboxed headless browsers.
 
-## Lavish Refinement Loop
+## Hybrid Data Script + HTML Assembly Workflow
 
-Lavish is the recommended human-in-the-loop fine-tuning step after the first complete HTML figure draft exists. Use it when the figure is structurally correct but needs human-guided polish: tighter spacing, better alignment, label wording, panel balance, arrow placement, color consistency, local overlap fixes, visual hierarchy adjustments, or small visual corrections that are hard to describe without pointing at the artifact.
+Do **not** hand-calculate SVG paths for complex statistical charts (error bands, KDEs, dense scatters, correlation heatmaps). Instead:
 
-1. Finish a coherent first HTML draft before starting Lavish. Do not use Lavish to replace scientific validation or data checking.
-2. From the directory containing the figure project, run:
+1. Generate data panels from `data.csv` / `data.json` with Python (`matplotlib` / `seaborn`), keeping fonts editable (`svg.fonttype = 'none'`) and matching the target panel width in inches:
+
+```python
+import matplotlib.pyplot as plt
+
+plt.rcParams.update({
+    "svg.fonttype": "none",          # Keep text as <text> nodes, not outlined paths
+    "font.family": "sans-serif",
+    "font.sans-serif": ["Arial", "Helvetica", "Liberation Sans"],
+    "font.size": 7.5,
+    "axes.titlesize": 8.5,
+    "axes.labelsize": 7.5,
+    "xtick.labelsize": 6.5,
+    "ytick.labelsize": 6.5,
+    "axes.linewidth": 0.75,
+})
+
+# Example: half-panel width 85.5 mm = 3.366 in
+fig, ax = plt.subplots(figsize=(3.366, 2.1))
+# ... plot from verified data ...
+fig.savefig("assets/panel-b-plot.svg", transparent=True, bbox_inches="tight")
+```
+
+2. Embed `assets/panel-b-plot.svg` in HTML (`<img src="assets/panel-b-plot.svg" ...>` or inline `<svg>`) alongside hand-crafted SVG architecture diagrams and shared panel labels (`A`, `B`, `C`).
+3. Alternatively, for dynamic lightweight figures, read `data.json` via inline JavaScript to build SVG elements deterministically.
+
+## Automated Export And Layout Audit
+
+Use the bundled export script (`scripts/export_figure.py`) from the skill directory to export tightly cropped vector PDF + high-DPI PNG and catch layout bugs automatically (use your virtual environment's Python if `playwright` is installed in a venv):
+
+```bash
+# Standard export (PDF + 300 dpi PNG + SVG audit)
+python3 <skill_dir>/scripts/export_figure.py index.html
+
+# Custom DPI, output directory, or PNG-only
+python3 <skill_dir>/scripts/export_figure.py index.html --dpi 600 --out-dir exports --format both
+
+# Audit layout without writing files
+python3 <skill_dir>/scripts/export_figure.py index.html --audit-only
+```
+
+What the script checks automatically:
+- **Broken images**: verifies every `<img>` finishes loading with `naturalWidth > 0`.
+- **Effective SVG font size**: inspects `getComputedStyle(text).fontSize` scaled by `getScreenCTM()` to catch hidden `viewBox` shrinkages below `--min-font-pt` (default `5.5 pt`).
+- **Clipping / boundary overflow**: flags any `<text>` extending outside `.paper-figure`.
+- **Label collisions**: checks pairwise bounding-box overlaps among `<text>` nodes in each SVG.
+- **Tight PDF crop**: measures `.paper-figure` in print media mode and exports an exact-size PDF page (plus `--pad-mm`, default `2.0 mm`) with no A4 margins and preserved background fills.
+
+After running `export_figure.py`, **always inspect `exports/figure.png` visually** (with `read_file` or an image viewer) to verify spacing, alignment, legend balance, and typography before delivering or moving to human review.
+
+## Three-Tier Review & Refinement Loop
+
+1. **Tier 1 — Automated Audit + Visual Self-Check (Mandatory)**:
+   Run `scripts/export_figure.py`, fix any reported small text, clipping, broken images, or overlapping labels, and inspect the exported PNG visually.
+2. **Tier 2 — Local Static Preview (Always Available)**:
+   Open `index.html` in a local browser (or browser preview pane) to inspect print/screen layout and copy-paste readability.
+3. **Tier 3 — Lavish Human-in-the-Loop Polish (Optional, when Node/`npx` is available)**:
+   After a complete, scientifically faithful HTML draft passes Tier 1, use [Lavish](https://github.com/kunchenguid/lavish-axi) for interactive click-and-annotate refinement (tightening spacing, alignment, label wording, arrow placement, visual hierarchy):
 
 ```bash
 npx -y lavish-axi index.html
-```
-
-3. The command returns a local session URL such as `http://127.0.0.1:4387/session/...`, the resolved file path, and a `next_step` telling the agent to poll. The same HTML file may resume the same session.
-4. Ask the user to annotate elements, selected text, or layout regions directly in the browser.
-5. Poll for feedback when running an interactive agent loop:
-
-```bash
 npx -y lavish-axi poll index.html
 ```
 
-6. `poll` long-polls and normally stays silent until the user sends feedback or ends the session. Do not treat silence as failure.
-7. Revise `index.html`, `styles.css`, SVG layers, and local assets based on the precise feedback.
-8. After applying feedback, send a short response back into Lavish and wait for the next review pass:
+After patching `index.html` or `styles.css` from Lavish feedback:
 
 ```bash
-npx -y lavish-axi poll index.html --agent-reply "Updated the spacing and label alignment; please review the revised figure."
+npx -y lavish-axi poll index.html --agent-reply "Updated spacing and label alignment; please review."
 ```
 
-9. Repeat until layout warnings and user review feedback are resolved.
+When finished, re-run `scripts/export_figure.py` to regenerate final PDF/PNG deliverables.
 
-Use relative asset paths. Avoid root-prefixed paths such as `/assets/image.png`, which may fail in local artifact routes.
+### Lavish CLI Notes And Pitfalls
 
-Recommended loop:
+- `npx -y lavish-axi --help` prints playbook guidance and confirms the intended workflow.
+- Lavish serves the HTML through a local Express server (typically port `4387`). Treat the returned URL as the review surface, not the final artifact URL.
+- Keep all CSS, images, fonts, and scripts reachable via relative paths next to `index.html`.
+- `poll` is intentionally blocking; do not add `--timeout-ms` in normal interactive loops.
+- If a harness times out a foreground `poll`, rerun `lavish-axi poll <html-file>` — queued feedback is preserved.
+- If `poll` returns `SERVER_ERROR`, rerun `lavish-axi <html-file>` and then poll again.
+- If port `4387` reports `EADDRINUSE`, inspect stale processes with `lsof -nP -iTCP:4387 -sTCP:LISTEN` (`lavish-axi stop` may report `not-running` even when a node process still listens).
+- `lavish-axi end <html-file>` can fail when no server is reachable; prefer ending from the active session.
+- Keep `<meta name="lavish-live-reload" content="root" />` in `<head>` for live reload, while keeping the HTML completely portable without Lavish.
 
-```text
-build first HTML draft
-  -> launch Lavish
-  -> collect precise human feedback
-  -> patch HTML/CSS/SVG
-  -> re-render and repeat
-  -> export PDF/PNG
-```
+## Delivery Checklist
 
-## Lavish CLI Notes And Pitfalls
-
-These notes come from a direct CLI run against the bundled HTML template.
-
-- `npx -y lavish-axi --help` prints playbook guidance and confirms the intended workflow: create the HTML artifact first, then run `lavish-axi <html-file>`, then `lavish-axi poll <html-file>`.
-- Lavish serves the HTML through a local Express server, observed on port `4387`. Treat the returned URL as the review surface, not the final artifact URL.
-- Keep every local dependency reachable from the HTML file with relative paths. CSS, images, fonts, and scripts should live next to the HTML file or in relative subdirectories such as `assets/`. Do not use `/assets/...`.
-- `poll` is intentionally blocking. In normal use, do not add `--timeout-ms`; it is for tests/debugging and may not behave like an ordinary short timeout in all harnesses.
-- If the execution environment kills or times out a foreground poll, rerun `lavish-axi poll <html-file>`. Lavish reports that queued feedback is not lost.
-- If `poll` returns `SERVER_ERROR` or says the server did not start, rerun `lavish-axi <html-file>` and then poll again.
-- If `lavish-axi server --port 4387` reports `EADDRINUSE`, check for a stale node process:
-
-```bash
-lsof -nP -iTCP:4387 -sTCP:LISTEN
-```
-
-Then stop the stale process if it belongs to the current Lavish test/session.
-
-- `lavish-axi stop` may report `not-running` even when a node process is still listening on the port. Trust `lsof` when debugging port conflicts.
-- `lavish-axi end <html-file>` can fail with the same server-start error when no server is reachable. Prefer ending from the active session, or restart the session and then end.
-- Lavish does not inject a design system. The HTML should remain portable and render correctly when opened directly without Lavish. For this skill, prefer the academic CSS/template rather than Lavish's generic Tailwind/DaisyUI suggestion unless the user explicitly asks for a different design system.
-- The template includes `<meta name="lavish-live-reload" content="root" />` so Lavish can reload changes during refinement.
-
-## Export Guidance
-
-Prefer browser-based export from the rendered HTML:
-
-- PDF for vector-preserving review and manuscript assembly
-- PNG for preview and common submission workflows
-- TIFF/EPS only when required by the target journal
-
-When exporting PNG, set a large enough viewport or device scale factor to meet the intended effective resolution. Verify the export against the HTML source for clipped text, missing fonts, broken assets, and alignment shifts.
-
-## Delivery Notes
-
-When sending the result back to the user, include:
-
-- source file paths
-- export file paths if generated
-- any source data or image limitations
-- any author checks required before submission
+When reporting back to the user, include:
+- Source file paths (`index.html`, `styles.css`, data/plotting scripts, `assets/`)
+- Export file paths (`exports/figure.pdf`, `exports/figure.png`) and exact physical dimensions / DPI
+- Audit status and visual inspection summary
+- Any data approximations, source image resolution limits, or checks the author must verify before submission
