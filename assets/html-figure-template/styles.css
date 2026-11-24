@@ -1,22 +1,48 @@
 :root {
+  /* Target paper width: Nature/standard double-column (178 mm ≈ 672.8 px at 96 dpi).
+     With 2 equal columns and 7 mm gap, each panel is ~323 px wide. */
   --figure-width: 178mm;
-  --font-sans: Arial, Helvetica, sans-serif;
+  --panel-gap: 7mm;
+  --font-sans: Arial, Helvetica, "Liberation Sans", sans-serif;
+
+  /* Publication typography in physical pt units (1 pt = 1.333 px at 96 dpi) */
+  --label-size: 10pt;
+  --title-size: 9pt;
+  --body-size: 7.5pt;
+  --tick-size: 6.5pt;
+  --note-size: 6.5pt;
+
+  /* Print-safe stroke weights */
+  --stroke-axis: 0.75pt;
+  --stroke-line: 1pt;
+  --stroke-grid: 0.5pt;
+
+  /* Neutral inks and surfaces */
   --ink: #202124;
   --muted: #5f6368;
   --line: #3c4043;
-  --panel-gap: 7mm;
-  --label-size: 16px;
-  --title-size: 13px;
-  --body-size: 11px;
-  --note-size: 10px;
-  --accent-blue: #2f6f9f;
-  --accent-teal: #4b9b8f;
-  --accent-gold: #c58b2b;
+  --grid-line: #e0e3e7;
   --soft-gray: #f3f5f6;
+
+  /* Color-blind-safe Okabe-Ito-inspired palette */
+  --accent-blue: #0072b2;
+  --accent-teal: #009e73;
+  --accent-orange: #d55e00;
+  --accent-gold: #e69f00;
+  --accent-purple: #cc79a7;
+  --accent-sky: #56b4e9;
+
+  /* Muted fills for diagram blocks and highlighted regions */
+  --tint-blue: #e8f2f8;
+  --tint-teal: #e6f5f0;
+  --tint-orange: #faede4;
+  --tint-gold: #fcf4e1;
 }
 
 * {
   box-sizing: border-box;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
 }
 
 body {
@@ -31,14 +57,17 @@ body {
   display: grid;
   place-items: start center;
   padding: 18mm;
+  overflow-x: auto;
 }
 
 .paper-figure {
-  width: min(100%, var(--figure-width));
+  width: var(--figure-width);
+  min-width: var(--figure-width);
   margin: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--panel-gap);
+  background: #ffffff;
 }
 
 .panel {
@@ -57,7 +86,7 @@ body {
 }
 
 .panel h2 {
-  margin: 0 0 4mm 8mm;
+  margin: 0 0 3mm 6.5mm;
   font-size: var(--title-size);
   line-height: 1.2;
   font-weight: 700;
@@ -75,7 +104,20 @@ svg {
 
 .axis-line {
   stroke: var(--line);
-  stroke-width: 1.4;
+  stroke-width: var(--stroke-axis);
+  fill: none;
+}
+
+.grid-line {
+  stroke: var(--grid-line);
+  stroke-width: var(--stroke-grid);
+  stroke-dasharray: 2 2;
+  fill: none;
+}
+
+.connector-line {
+  stroke: var(--line);
+  stroke-width: var(--stroke-line);
   fill: none;
 }
 
@@ -86,12 +128,17 @@ marker path {
 .phase rect {
   fill: var(--soft-gray);
   stroke: var(--line);
-  stroke-width: 1.2;
+  stroke-width: var(--stroke-axis);
 }
 
 .phase.accent rect {
-  fill: #e7f1f0;
+  fill: var(--tint-teal);
   stroke: var(--accent-teal);
+}
+
+.tick-label {
+  font-size: var(--tick-size);
+  fill: var(--muted);
 }
 
 .small-note {
@@ -101,7 +148,7 @@ marker path {
 
 .bar {
   stroke: var(--line);
-  stroke-width: 1;
+  stroke-width: var(--stroke-axis);
 }
 
 .bar-one {
@@ -117,24 +164,19 @@ marker path {
 }
 
 .axis-title {
+  font-size: var(--body-size);
   font-weight: 700;
 }
 
-@media (max-width: 720px) {
-  .figure-page {
-    padding: 16px;
-  }
-
-  .paper-figure {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
+@page {
+  margin: 0;
 }
 
 @media print {
   .figure-page {
     min-height: auto;
     padding: 0;
+    overflow: visible;
   }
 
   .paper-figure {
