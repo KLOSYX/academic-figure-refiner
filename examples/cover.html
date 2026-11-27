@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Academic Figure Refiner README cover</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Segoe UI", Arial, sans-serif; }
+    .cover {
+      width: 1560px;
+      min-height: 716px;
+      padding: 53px 68px 37px;
+      color: #f3f8ff;
+      background: radial-gradient(ellipse at 86% 4%, #143354 0%, #0c1b32 44%, #081322 83%);
+    }
+    .intro { display: grid; grid-template-columns: 1fr 425px; align-items: end; gap: 32px; }
+    .brand, .venue, .footer, .flow dt {
+      font-family: "Cascadia Mono", Consolas, monospace;
+      font-weight: 700;
+      letter-spacing: 0.095em;
+    }
+    .brand { margin: 0 0 17px; color: #a4c9ed; font-size: 21px; }
+    h1 { margin: 0; font-size: 93px; line-height: 0.98; letter-spacing: -0.066em; font-weight: 750; }
+    h1 span { color: #9cf0d9; }
+    .subtitle { margin: 21px 0 0; font-size: 28px; color: #d1e2f2; }
+    .flow {
+      position: relative;
+      margin: 0;
+      padding: 9px 0 5px 42px;
+      display: grid;
+      gap: 17px;
+      border-left: 1px solid #52819c;
+    }
+    .flow div { position: relative; }
+    .flow div::before {
+      position: absolute;
+      content: "";
+      left: -50px;
+      top: 4px;
+      width: 12px;
+      height: 12px;
+      background: #173453;
+      border: 2px solid #83a8c9;
+      border-radius: 50%;
+    }
+    .flow div:nth-child(2)::before {
+      background: #9cf0d9;
+      border-color: #9cf0d9;
+      box-shadow: 0 0 0 4px #214b56;
+    }
+    .flow dt { color: #b3cce4; font-size: 15px; }
+    .flow dd { margin: 2px 0 0; font-size: 25px; line-height: 1.16; font-weight: 650; }
+    .case-studies { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 37px; }
+    .example {
+      overflow: hidden;
+      margin: 0;
+      padding: 16px 20px 18px;
+      border-top: 5px solid var(--accent);
+      border-radius: 2px 2px 8px 8px;
+      color: #121f32;
+      background: #fff;
+    }
+    .example figcaption { display: flex; flex-direction: column; gap: 2px; margin-bottom: 9px; }
+    .venue { color: #435670; font-size: 14px; }
+    .example strong { font-size: 28px; line-height: 1.12; letter-spacing: -0.025em; }
+    .preview { display: grid; place-items: center; height: 171px; }
+    .preview img { display: block; max-width: 100%; max-height: 100%; }
+    .footer { margin: 21px 0 0; color: #b5cbe1; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <main class="cover">
+    <div class="intro">
+      <div>
+        <p class="brand">ACADEMIC FIGURE REFINER</p>
+        <h1>Build &amp; refine<br><span>academic figures.</span></h1>
+        <p class="subtitle">Turn sketches, screenshots, and data into figures you can edit.</p>
+      </div>
+      <dl class="flow" aria-label="Figure workflow">
+        <div><dt>BUILD / REBUILD</dt><dd>Editable HTML + SVG</dd></div>
+        <div><dt>CHECK AT PRINT WIDTH</dt><dd>Automated layout audit</dd></div>
+        <div><dt>EXPORT</dt><dd>Cropped PDF + high-res PNG</dd></div>
+      </dl>
+    </div>
+    <section class="case-studies" aria-label="Three original examples">
+      <figure class="example" style="--accent:#4cb89b">
+        <figcaption><span class="venue">NATURE WIDTH · 183 MM</span><strong>Field maps &amp; transects</strong></figcaption>
+        <div class="preview"><img src="nature/exports/figure.png" alt="Coastal heatmap and two temperature profiles"></div>
+      </figure>
+      <figure class="example" style="--accent:#70ace8">
+        <figcaption><span class="venue">NEURIPS WIDTH · 139.7 MM</span><strong>Model diagrams &amp; curves</strong></figcaption>
+        <div class="preview"><img src="neurips/exports/figure.png" alt="Two-stage retrieval diagram with recall scaling curves"></div>
+      </figure>
+      <figure class="example" style="--accent:#d789bd">
+        <figcaption><span class="venue">CELL PRESS WIDTH · 174 MM</span><strong>Imaging &amp; annotations</strong></figcaption>
+        <div class="preview"><img src="cell/exports/figure.png" alt="Two-channel fluorescence simulation with an inset and signal profiles"></div>
+      </figure>
+    </section>
+    <p class="footer">ORIGINAL DEMOS · SIMULATED DATA AND IMAGERY</p>
+  </main>
+</body>
+</html>

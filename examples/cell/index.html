@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="lavish-live-reload" content="root">
+  <title>Simulated fluorescence and channel profiles</title>
+  <link rel="stylesheet" href="../../assets/html-figure-template/styles.css">
+  <link rel="stylesheet" href="../figure.css">
+  <style>
+    :root {
+      --figure-width: 174mm;
+      --panel-gap: 6mm;
+      --label-size: 8pt;
+      --title-size: 8pt;
+    }
+    .paper-figure { grid-template-columns: 45fr 25fr 30fr; }
+    .roi { fill: none; stroke: white; stroke-width: 0.8pt; stroke-dasharray: 3 2; }
+    .scale-bar { stroke: white; stroke-width: 1.5pt; }
+  </style>
+  <script src="../plots.js" defer></script>
+  <script src="profile.js" defer></script>
+  <script src="plot_profile.js" defer></script>
+</head>
+<body>
+  <main class="figure-page">
+    <figure class="paper-figure" aria-label="Simulated fluorescence image, magnified region and two intensity profiles">
+      <section class="panel" aria-labelledby="field-title">
+        <div class="panel-heading">
+          <span class="panel-letter">A</span><h2 id="field-title">Simulated fluorescence</h2>
+        </div>
+        <div class="imaging-panel">
+          <img src="phantom.png" alt="Merged cyan and magenta fluorescence channels of a synthetic optical phantom">
+          <svg viewBox="0 0 276 174" aria-label="Selected region and 50 micrometre scale bar" role="img">
+            <rect x="166.2" y="36.4" width="69" height="78.4" class="roi"/>
+            <text class="image-annotation" x="171" y="48">B</text>
+            <path class="scale-bar" d="M234 160h31.36"/>
+            <text class="image-annotation tick-label" x="249.68" y="154" text-anchor="middle">50 μm</text>
+          </svg>
+        </div>
+      </section>
+      <section class="panel" aria-labelledby="roi-title">
+        <div class="panel-heading">
+          <span class="panel-letter">B</span><h2 id="roi-title">ROI inset</h2>
+        </div>
+        <div class="imaging-panel">
+          <img src="inset.png" alt="Exact crop of the region outlined in panel A">
+          <svg viewBox="0 0 153 174" aria-label="Profile scan and 20 micrometre scale bar" role="img">
+            <path class="roi" d="M0 92.22h153"/>
+            <text class="image-annotation tick-label" x="7" y="84">Scan</text>
+            <path class="scale-bar" d="M114 160h27.82"/>
+            <text class="image-annotation tick-label" x="127.91" y="154" text-anchor="middle">20 μm</text>
+          </svg>
+        </div>
+      </section>
+      <section class="panel" aria-labelledby="profile-title">
+        <div class="panel-heading">
+          <span class="panel-letter">C</span><h2 id="profile-title">Channel profiles</h2>
+        </div>
+        <svg id="profile" viewBox="0 0 184 174" role="img"
+          aria-label="Cyan and magenta channel intensities sampled along the marked scan line"></svg>
+      </section>
+      <figcaption class="figure-note">
+        Synthetic optical phantom. Profiles average nine rows centered on the scan in B. Scale uses 0.5 μm per source pixel.
+      </figcaption>
+    </figure>
+  </main>
+</body>
+</html>

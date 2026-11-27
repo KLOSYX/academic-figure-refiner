@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="lavish-live-reload" content="root">
+  <title>Simulated coastal temperature field</title>
+  <link rel="stylesheet" href="../../assets/html-figure-template/styles.css">
+  <link rel="stylesheet" href="../figure.css">
+  <style>
+    :root {
+      --figure-width: 183mm;
+      --label-size: 7pt;
+      --title-size: 7pt;
+      --body-size: 7pt;
+      --tick-size: 6.2pt;
+      --note-size: 6.2pt;
+    }
+    .paper-figure { grid-template-columns: 61fr 39fr; }
+  </style>
+  <script src="../plots.js" defer></script>
+  <script src="field.js" defer></script>
+</head>
+<body>
+  <main class="figure-page">
+    <figure class="paper-figure" aria-label="A simulated coastal temperature map and two transects">
+      <section class="panel" aria-labelledby="map-title">
+        <div class="panel-heading">
+          <span class="panel-letter">a</span><h2 id="map-title">Coastal temperature field</h2>
+        </div>
+        <svg id="field" viewBox="0 0 406 220" role="img"
+          aria-label="Temperature field in degrees Celsius with north and south transects"></svg>
+      </section>
+      <section class="panel" aria-labelledby="transect-title">
+        <div class="panel-heading">
+          <span class="panel-letter">b</span><h2 id="transect-title">Offshore transects</h2>
+        </div>
+        <svg id="transects" viewBox="0 0 259 220" role="img"
+          aria-label="Temperature profiles sampled directly from the north and south transects"></svg>
+      </section>
+      <figcaption class="figure-note">
+        Simulated field. The two profiles sample the same grid shown in a. Gray indicates land.
+      </figcaption>
+    </figure>
+  </main>
+</body>
+</html>
